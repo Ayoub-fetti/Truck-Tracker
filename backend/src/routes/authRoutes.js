@@ -5,8 +5,7 @@ const { authorize: roleAuth } = require('../middleware/roleMiddleware');
 
 const router = express.Router();
 
-// router.post('/register', protect, roleAuth('admin'), register);
-router.post('/register', register);
+router.post('/register', protect, roleAuth('admin'), register);
 router.post('/login', login);
 
 module.exports = router;

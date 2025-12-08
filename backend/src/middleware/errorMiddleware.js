@@ -10,11 +10,11 @@ exports.errorHandler = (err, req, res, next) => {
   }
 
   if (err.code === 11000) {
-    return res.status(400).json({ message: 'Donnée déjà existante' });
+    return res.status(400).json({ message: 'Data existe before' });
   }
 
   res.status(err.statusCode || 500).json({
-    message: err.message || 'Erreur serveur',
+    message: err.message || 'Server Error',
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 };

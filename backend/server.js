@@ -5,4 +5,4 @@ const connectDB = require('./src/config/database');
 connectDB();
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Serveur démarré sur port ${PORT}`));
+app.listen(PORT, () => console.log(`Server Runing in the port ${PORT}`));
