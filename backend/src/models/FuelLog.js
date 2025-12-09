@@ -11,11 +11,10 @@ const fuelLogSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-fuelLogSchema.pre('save', function(next) {
+fuelLogSchema.pre('save', function() {
   if (this.quantite && this.kilometrage) {
     this.consommationMoyenne = (this.quantite / this.kilometrage) * 100;
-  }
-  next();
+  };
 });
 
 module.exports = mongoose.model('FuelLog', fuelLogSchema);

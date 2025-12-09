@@ -15,11 +15,11 @@ const tripSchema = new mongoose.Schema({
   marchandise: String
 }, { timestamps: true });
 
-tripSchema.pre('save', function(next) {
+tripSchema.pre('save', function() {
   if (this.kilometrageArrivee && this.kilometrageDepart) {
     this.distanceParcourue = this.kilometrageArrivee - this.kilometrageDepart;
   }
-  next();
+  ;
 });
 
 module.exports = mongoose.model('Trip', tripSchema);
