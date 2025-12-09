@@ -1,6 +1,6 @@
-const { protect } = require('../src/middleware/authMiddleware');
-const User = require('../src/models/User');
-const { generateToken, verifyToken } = require('../src/utils/jwt');
+const { protect } = require('../../src/middleware/authMiddleware');
+const User = require('../../src/models/User');
+const { generateToken, verifyToken } = require('../../src/utils/jwt');
 
 jest.mock('../src/models/User');
 
@@ -37,7 +37,7 @@ describe('Auth Middleware', () => {
       await protect(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Non autorisé' });
+      expect(res.json).toHaveBeenCalledWith({ message: 'Not authorized' });
       expect(next).not.toHaveBeenCalled();
     });
 
@@ -47,7 +47,7 @@ describe('Auth Middleware', () => {
       await protect(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Token invalide' });
+      expect(res.json).toHaveBeenCalledWith({ message: 'Invalid Token' });
       expect(next).not.toHaveBeenCalled();
     });
 
@@ -62,7 +62,7 @@ describe('Auth Middleware', () => {
       await protect(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Utilisateur non trouvé' });
+      expect(res.json).toHaveBeenCalledWith({ message: 'User not found' });
       expect(next).not.toHaveBeenCalled();
     });
   });

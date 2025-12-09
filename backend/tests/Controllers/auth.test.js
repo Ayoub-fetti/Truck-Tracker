@@ -1,7 +1,7 @@
 const request = require('supertest');
-const app = require('../src/app');
-const User = require('../src/models/User');
-const { generateToken } = require('../src/utils/jwt');
+const app = require('../../src/app');
+const User = require('../../src/models/User');
+const { generateToken } = require('../../src/utils/jwt');
 
 describe('Auth Controller', () => {
   describe('POST /api/auth/login', () => {

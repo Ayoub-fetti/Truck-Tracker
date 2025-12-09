@@ -1,4 +1,4 @@
-const { authorize } = require('../src/middleware/roleMiddleware');
+const { authorize } = require('../../src/middleware/roleMiddleware');
 
 describe('Role Middleware', () => {
   let req, res, next;
@@ -38,7 +38,7 @@ describe('Role Middleware', () => {
     middleware(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(403);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Accès refusé' });
+    expect(res.json).toHaveBeenCalledWith({ message: 'Access denied' });
     expect(next).not.toHaveBeenCalled();
   });
 });
