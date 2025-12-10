@@ -1,4 +1,3 @@
-// tests/maintenance.test.js
 const request = require('supertest');
 const app = require('../../src/app');
 const Maintenance = require('../../src/models/Maintenance');

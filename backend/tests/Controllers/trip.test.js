@@ -1,4 +1,3 @@
-// tests/trip.test.js
 const request = require('supertest');
 const app = require('../../src/app');
 const Trip = require('../../src/models/Trip');

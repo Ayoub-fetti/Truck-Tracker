@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const truckRoutes = require('./routes/truckRoutes');
 const trailerRoutes = require('./routes/trailerRoutes');
@@ -10,6 +11,11 @@ const maintenanceRoutes = require('./routes/maintenanceRoutes');
 const { errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(morgan('dev'));
