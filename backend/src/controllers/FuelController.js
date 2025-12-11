@@ -1,14 +1,20 @@
+// backend/src/controllers/FuelController.js
 const FuelLog = require('../models/FuelLog');
 const Truck = require('../models/Truck');
 
 exports.createFuelLog = async (req, res) => {
-  const { truck, kilometrage } = req.body;
+  const { truck, kilometrage, chauffeur } = req.body;
   
   const lastLog = await FuelLog.findOne({ truck }).sort({ kilometrage: -1 });
-  const fuelLog = await FuelLog.create({
+  
+  // If admin is creating the log and specifies a chauffeur, use that
+  // Otherwise, use the current user (for drivers creating their own logs)
+  const fuelLogData = {
     ...req.body,
-    chauffeur: req.user._id
-  });
+    chauffeur: (req.user.role === 'admin' && chauffeur) ? chauffeur : req.user._id
+  };
+  
+  const fuelLog = await FuelLog.create(fuelLogData);
   
   if (lastLog) {
     const distance = kilometrage - lastLog.kilometrage;

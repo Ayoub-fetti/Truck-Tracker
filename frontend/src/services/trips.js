@@ -3,7 +3,7 @@ import API from './api';
 export const tripsService = {
   getAll: () => API.get('/trips'),
   getById: (id) => API.get(`/trips/${id}`),
-  getDriverTrips: () => API.get('/trips/my-trips'),
+  getDriverTrips: (userId) => API.get(`/trips?chauffeur=${userId}`),
   create: (data) => API.post('/trips', data),
   update: (id, data) => API.put(`/trips/${id}`, data),
   updateKilometers: (id, kilometers) => API.patch(`/trips/${id}/kilometers`, { kilometers }),
