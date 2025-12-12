@@ -58,47 +58,57 @@ export default function Dashboard() {
       </div>
     );
 
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold">Total Trucks</h3>
-          <p className="text-3xl font-bold text-blue-600">
-            {stats.totalTrucks}
-          </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold">Total Trailers</h3>
-          <p className="text-3xl font-bold text-green-600">
-            {stats.totalTrailers}
-          </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold">Active Trips</h3>
-          <p className="text-3xl font-bold text-purple-600">
-            {stats.activeTrips}
-          </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold">Pending Maintenance</h3>
-          <p className="text-3xl font-bold text-red-600">
-            {stats.pendingMaintenance}
-          </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold">Total Tires</h3>
-          <p className="text-3xl font-bold text-yellow-600">
-            {stats.totalTires}
-          </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-lg font-semibold">Fuel Logs</h3>
-          <p className="text-3xl font-bold text-indigo-600">
-            {stats.totalFuelLogs}
-          </p>
-        </div>
+return (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold mb-8 text-gray-800">Dashboard</h1>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      {/* Card */}
+      <div className="bg-white/90 backdrop-blur shadow-sm border border-gray-200 p-6 rounded-xl hover:shadow-md transition">
+        <h3 className="text-sm font-medium text-gray-500">Total Trucks</h3>
+        <p className="mt-2 text-4xl font-bold text-blue-600 tracking-tight">
+          {stats.totalTrucks}
+        </p>
       </div>
+
+      <div className="bg-white/90 backdrop-blur shadow-sm border border-gray-200 p-6 rounded-xl hover:shadow-md transition">
+        <h3 className="text-sm font-medium text-gray-500">Total Trailers</h3>
+        <p className="mt-2 text-4xl font-bold text-green-600 tracking-tight">
+          {stats.totalTrailers}
+        </p>
+      </div>
+
+      <div className="bg-white/90 backdrop-blur shadow-sm border border-gray-200 p-6 rounded-xl hover:shadow-md transition">
+        <h3 className="text-sm font-medium text-gray-500">Active Trips</h3>
+        <p className="mt-2 text-4xl font-bold text-purple-600 tracking-tight">
+          {stats.activeTrips}
+        </p>
+      </div>
+
+      <div className="bg-white/90 backdrop-blur shadow-sm border border-gray-200 p-6 rounded-xl hover:shadow-md transition">
+        <h3 className="text-sm font-medium text-gray-500">Pending Maintenance</h3>
+        <p className="mt-2 text-4xl font-bold text-red-600 tracking-tight">
+          {stats.pendingMaintenance}
+        </p>
+      </div>
+
+      <div className="bg-white/90 backdrop-blur shadow-sm border border-gray-200 p-6 rounded-xl hover:shadow-md transition">
+        <h3 className="text-sm font-medium text-gray-500">Total Tires</h3>
+        <p className="mt-2 text-4xl font-bold text-yellow-600 tracking-tight">
+          {stats.totalTires}
+        </p>
+      </div>
+
+      <div className="bg-white/90 backdrop-blur shadow-sm border border-gray-200 p-6 rounded-xl hover:shadow-md transition">
+        <h3 className="text-sm font-medium text-gray-500">Fuel Logs</h3>
+        <p className="mt-2 text-4xl font-bold text-indigo-600 tracking-tight">
+          {stats.totalFuelLogs}
+        </p>
+      </div>
+
     </div>
-  );
+  </div>
+);
+
 }

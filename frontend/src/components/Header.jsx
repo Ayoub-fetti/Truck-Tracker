@@ -6,7 +6,7 @@ const Header = ({ toggleSidebar, user, onLogout }) => {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-white shadow-md border-b border-gray-200 fixed top-0 left-0 right-0 z-40">
+    <header className="bg-white shadow-md border-b border-gray-200 fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center justify-between px-4 py-3">
         {/* Left side - Menu button and Logo */}
         <div className="flex items-center space-x-4">

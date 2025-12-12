@@ -97,202 +97,216 @@ export default function Trips() {
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-transparent"></div>
       </div>
     );
-  return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Trips Management</h1>
-        <button
-          onClick={() => setShowForm(true)}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Add Trip
-        </button>
-      </div>
+return (
+  <div className="p-6">
+    {/* HEADER */}
+    <div className="flex justify-between items-center mb-8">
+      <h1 className="text-3xl font-semibold text-gray-800">Trips Management</h1>
 
-      {showForm && (
-        <div className="bg-white p-6 rounded-lg shadow mb-6">
-          <h2 className="text-xl font-semibold mb-4">
-            {editingTrip ? "Edit Trip" : "Add New Trip"}
-          </h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Départ"
-              value={formData.depart}
-              onChange={(e) =>
-                setFormData({ ...formData, depart: e.target.value })
-              }
-              className="border p-2 rounded"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Destination"
-              value={formData.destination}
-              onChange={(e) =>
-                setFormData({ ...formData, destination: e.target.value })
-              }
-              className="border p-2 rounded"
-              required
-            />
-            <select
-              value={formData.truck}
-              onChange={(e) =>
-                setFormData({ ...formData, truck: e.target.value })
-              }
-              className="border p-2 rounded"
-              required
-            >
-              <option value="">Select Truck</option>
-              {trucks.map((truck) => (
-                <option key={truck._id} value={truck._id}>
-                  {truck.immatriculation}
-                </option>
-              ))}
-            </select>
-            <select
-              value={formData.trailer}
-              onChange={(e) =>
-                setFormData({ ...formData, trailer: e.target.value })
-              }
-              className="border p-2 rounded"
-            >
-              <option value="">Select Trailer (Optional)</option>
-              {trailers.map((trailer) => (
-                <option key={trailer._id} value={trailer._id}>
-                  {trailer.immatriculation}
-                </option>
-              ))}
-            </select>
-            <select
-              value={formData.chauffeur}
-              onChange={(e) =>
-                setFormData({ ...formData, chauffeur: e.target.value })
-              }
-              className="border p-2 rounded"
-              required
-            >
-              <option value="">Select Chauffeur</option>
-              {drivers.map((driver) => (
-                <option key={driver._id} value={driver._id}>
-                  {driver.nom}
-                </option>
-              ))}
-            </select>
-            <input
-              type="date"
-              value={formData.dateDepart}
-              onChange={(e) =>
-                setFormData({ ...formData, dateDepart: e.target.value })
-              }
-              className="border p-2 rounded"
-              required
-            />
-            <input
-              type="number"
-              placeholder="Kilométrage Départ"
-              value={formData.kilometrageDepart}
-              onChange={(e) =>
-                setFormData({ ...formData, kilometrageDepart: e.target.value })
-              }
-              className="border p-2 rounded"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Marchandise"
-              value={formData.marchandise}
-              onChange={(e) =>
-                setFormData({ ...formData, marchandise: e.target.value })
-              }
-              className="border p-2 rounded"
-            />
-            <select
-              value={formData.statut}
-              onChange={(e) =>
-                setFormData({ ...formData, statut: e.target.value })
-              }
-              className="border p-2 rounded col-span-2"
-            >
-              <option value="planifié">Planifié</option>
-              <option value="en_cours">En Cours</option>
-              <option value="terminé">Terminé</option>
-              <option value="annulé">Annulé</option>
-            </select>
-            <div className="flex gap-2 col-span-2">
-              <button
-                type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-              >
-                {editingTrip ? "Update" : "Create"}
-              </button>
-              <button
-                type="button"
-                onClick={resetForm}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left">Départ</th>
-              <th className="px-6 py-3 text-left">Destination</th>
-              <th className="px-6 py-3 text-left">Truck</th>
-              <th className="px-6 py-3 text-left">Trailer</th>
-              <th className="px-6 py-3 text-left">Chauffeur</th>
-              <th className="px-6 py-3 text-left">Marchandise</th>
-              <th className="px-6 py-3 text-left">Statut</th>
-              <th className="px-6 py-3 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {trips.map((trip) => (
-              <tr key={trip._id} className="border-t">
-                <td className="px-6 py-4">{trip.depart}</td>
-                <td className="px-6 py-4">{trip.destination}</td>
-                <td className="px-6 py-4">{trip.truck?.immatriculation}</td>
-                <td className="px-6 py-4">
-                  {trip.trailer?.immatriculation || "None"}
-                </td>
-                <td className="px-6 py-4">
-                  {trip.chauffeur?.nom || trip.chauffeur}
-                </td>
-                <td className="px-6 py-4">{trip.marchandise}</td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`px-2 py-1 rounded text-sm ${
-                      trip.statut === "terminé"
-                        ? "bg-green-100 text-green-800"
-                        : trip.statut === "en_cours"
-                        ? "bg-blue-100 text-blue-800"
-                        : trip.statut === "annulé"
-                        ? "bg-red-100 text-red-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {trip.statut}
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <button
-                    onClick={() => handleEdit(trip)}
-                    className="text-blue-600 hover:text-blue-800 mr-2"
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <button
+        onClick={() => setShowForm(true)}
+        className="bg-blue-600 text-white px-5 py-2.5 rounded-xl shadow-sm 
+                   hover:bg-blue-700 transition-all"
+      >
+        Add Trip
+      </button>
     </div>
-  );
+
+    {/* FORM */}
+    {showForm && (
+      <div className="bg-white p-6 rounded-2xl shadow-md mb-8 border border-gray-100">
+        <h2 className="text-xl font-bold mb-5 text-gray-800">
+          {editingTrip ? "Edit Trip" : "Add New Trip"}
+        </h2>
+
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <input
+            type="text"
+            placeholder="Départ"
+            value={formData.depart}
+            onChange={(e) => setFormData({ ...formData, depart: e.target.value })}
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+            required
+          />
+
+          <input
+            type="text"
+            placeholder="Destination"
+            value={formData.destination}
+            onChange={(e) =>
+              setFormData({ ...formData, destination: e.target.value })
+            }
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+            required
+          />
+
+          <select
+            value={formData.truck}
+            onChange={(e) => setFormData({ ...formData, truck: e.target.value })}
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+            required
+          >
+            <option value="">Select Truck</option>
+            {trucks.map((truck) => (
+              <option key={truck._id} value={truck._id}>
+                {truck.immatriculation}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={formData.trailer}
+            onChange={(e) => setFormData({ ...formData, trailer: e.target.value })}
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+          >
+            <option value="">Select Trailer (Optional)</option>
+            {trailers.map((trailer) => (
+              <option key={trailer._id} value={trailer._id}>
+                {trailer.immatriculation}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={formData.chauffeur}
+            onChange={(e) =>
+              setFormData({ ...formData, chauffeur: e.target.value })
+            }
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+            required
+          >
+            <option value="">Select Chauffeur</option>
+            {drivers.map((driver) => (
+              <option key={driver._id} value={driver._id}>
+                {driver.nom}
+              </option>
+            ))}
+          </select>
+
+          <input
+            type="date"
+            value={formData.dateDepart}
+            onChange={(e) =>
+              setFormData({ ...formData, dateDepart: e.target.value })
+            }
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+            required
+          />
+
+          <input
+            type="number"
+            placeholder="Kilométrage Départ"
+            value={formData.kilometrageDepart}
+            onChange={(e) =>
+              setFormData({ ...formData, kilometrageDepart: e.target.value })
+            }
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+            required
+          />
+
+          <input
+            type="text"
+            placeholder="Marchandise"
+            value={formData.marchandise}
+            onChange={(e) =>
+              setFormData({ ...formData, marchandise: e.target.value })
+            }
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200"
+          />
+
+          <select
+            value={formData.statut}
+            onChange={(e) =>
+              setFormData({ ...formData, statut: e.target.value })
+            }
+            className="border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 col-span-2"
+          >
+            <option value="planifié">Planifié</option>
+            <option value="en_cours">En Cours</option>
+            <option value="terminé">Terminé</option>
+            <option value="annulé">Annulé</option>
+          </select>
+
+          <div className="flex gap-3 col-span-2">
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-5 py-2.5 rounded-xl shadow-sm 
+                         hover:bg-green-700 transition-all"
+            >
+              {editingTrip ? "Update" : "Create"}
+            </button>
+
+            <button
+              type="button"
+              onClick={resetForm}
+              className="bg-gray-500 text-white px-5 py-2.5 rounded-xl shadow-sm 
+                         hover:bg-gray-600 transition-all"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    )}
+
+    {/* TABLE */}
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+      <table className="w-full">
+        <thead className="bg-gray-50">
+          <tr className="text-gray-600 uppercase text-sm">
+            <th className="px-6 py-3 text-left">Départ</th>
+            <th className="px-6 py-3 text-left">Destination</th>
+            <th className="px-6 py-3 text-left">Truck</th>
+            <th className="px-6 py-3 text-left">Trailer</th>
+            <th className="px-6 py-3 text-left">Chauffeur</th>
+            <th className="px-6 py-3 text-left">Marchandise</th>
+            <th className="px-6 py-3 text-left">Statut</th>
+            <th className="px-6 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {trips.map((trip) => (
+            <tr key={trip._id} className="border-t hover:bg-gray-50 transition">
+              <td className="px-6 py-4">{trip.depart}</td>
+              <td className="px-6 py-4">{trip.destination}</td>
+              <td className="px-6 py-4">{trip.truck?.immatriculation}</td>
+              <td className="px-6 py-4">{trip.trailer?.immatriculation || "None"}</td>
+              <td className="px-6 py-4">{trip.chauffeur?.nom || trip.chauffeur}</td>
+              <td className="px-6 py-4">{trip.marchandise}</td>
+
+              <td className="px-6 py-4">
+                <span
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium
+                    ${
+                      trip.statut === "terminé"
+                        ? "bg-green-100 text-green-700"
+                        : trip.statut === "en_cours"
+                        ? "bg-blue-100 text-blue-700"
+                        : trip.statut === "annulé"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-yellow-100 text-yellow-700"
+                    }`}
+                >
+                  {trip.statut}
+                </span>
+              </td>
+
+              <td className="px-6 py-4">
+                <button
+                  onClick={() => handleEdit(trip)}
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Edit
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
 }
