@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { tripsService } from '../../services/trips';
-import { fuelService } from '../../services/fuel';
-import { useAuth } from '../../context/AuthContext';
-import { generateTripPDF } from '../../services/pdfService';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { tripsService } from "../../services/trips";
+import { fuelService } from "../../services/fuel";
+import { useAuth } from "../../context/AuthContext";
+import { generateTripPDF } from "../../services/pdfService";
 
 export default function MyTripDetail() {
   const { id } = useParams();
@@ -12,7 +12,7 @@ export default function MyTripDetail() {
   const [trip, setTrip] = useState(null);
   const [fuelLogs, setFuelLogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (user?._id) {
@@ -22,40 +22,44 @@ export default function MyTripDetail() {
 
   const fetchData = async () => {
     try {
-      setError('');
+      setError("");
       const tripRes = await tripsService.getById(id);
-      
+
       if (tripRes.data.chauffeur._id !== user._id) {
-        setError('You are not authorized to view this trip');
+        setError("You are not authorized to view this trip");
         return;
       }
-      
+
       setTrip(tripRes.data);
-      
+
       try {
         const fuelRes = await fuelService.getByTrip(id);
         setFuelLogs(fuelRes.data || []);
       } catch (fuelError) {
-        console.warn('Could not fetch fuel logs:', fuelError);
+        console.warn("Could not fetch fuel logs:", fuelError);
         setFuelLogs([]);
       }
-      
     } catch (error) {
-      console.error('Error fetching trip:', error);
+      console.error("Error fetching trip:", error);
       if (error.response?.status === 404) {
-        setError('Trip not found');
+        setError("Trip not found");
       } else if (error.response?.status === 403) {
-        setError('You are not authorized to view this trip');
+        setError("You are not authorized to view this trip");
       } else {
-        setError('Error loading trip details');
+        setError("Error loading trip details");
       }
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
-  
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-transparent"></div>
+      </div>
+    );
+
   if (error) {
     return (
       <div className="p-6">
@@ -63,7 +67,7 @@ export default function MyTripDetail() {
           {error}
         </div>
         <button
-          onClick={() => navigate('/driver/my-trips')}
+          onClick={() => navigate("/driver/my-trips")}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Back to My Trips
@@ -71,7 +75,7 @@ export default function MyTripDetail() {
       </div>
     );
   }
-  
+
   if (!trip) return <div className="p-6">Trip not found</div>;
 
   return (
@@ -86,33 +90,55 @@ export default function MyTripDetail() {
             Generate PDF
           </button>
           <button
-            onClick={() => navigate('/driver/my-trips')}
+            onClick={() => navigate("/driver/my-trips")}
             className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
           >
             Back
           </button>
         </div>
       </div>
-      
+
       <div className="bg-white p-6 rounded-lg shadow mb-6">
         <h2 className="text-xl font-semibold mb-4">Trip Information</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p><strong>Départ:</strong> {trip.depart}</p>
-            <p><strong>Destination:</strong> {trip.destination}</p>
-            <p><strong>Truck:</strong> {trip.truck?.immatriculation}</p>
-            <p><strong>Trailer:</strong> {trip.trailer?.immatriculation || 'None'}</p>
+            <p>
+              <strong>Départ:</strong> {trip.depart}
+            </p>
+            <p>
+              <strong>Destination:</strong> {trip.destination}
+            </p>
+            <p>
+              <strong>Truck:</strong> {trip.truck?.immatriculation}
+            </p>
+            <p>
+              <strong>Trailer:</strong>{" "}
+              {trip.trailer?.immatriculation || "None"}
+            </p>
           </div>
           <div>
-            <p><strong>Date Départ:</strong> {new Date(trip.dateDepart).toLocaleDateString()}</p>
-            <p><strong>Kilométrage Départ:</strong> {trip.kilometrageDepart}</p>
-            <p><strong>Kilométrage Arrivée:</strong> {trip.kilometrageArrivee || 'N/A'}</p>
-            <p><strong>Statut:</strong> 
-              <span className={`ml-2 px-2 py-1 rounded text-sm ${
-                trip.statut === 'terminé' ? 'bg-green-100 text-green-800' :
-                trip.statut === 'en_cours' ? 'bg-blue-100 text-blue-800' :
-                'bg-yellow-100 text-yellow-800'
-              }`}>
+            <p>
+              <strong>Date Départ:</strong>{" "}
+              {new Date(trip.dateDepart).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Kilométrage Départ:</strong> {trip.kilometrageDepart}
+            </p>
+            <p>
+              <strong>Kilométrage Arrivée:</strong>{" "}
+              {trip.kilometrageArrivee || "N/A"}
+            </p>
+            <p>
+              <strong>Statut:</strong>
+              <span
+                className={`ml-2 px-2 py-1 rounded text-sm ${
+                  trip.statut === "terminé"
+                    ? "bg-green-100 text-green-800"
+                    : trip.statut === "en_cours"
+                    ? "bg-blue-100 text-blue-800"
+                    : "bg-yellow-100 text-yellow-800"
+                }`}
+              >
                 {trip.statut}
               </span>
             </p>
@@ -148,7 +174,9 @@ export default function MyTripDetail() {
                   <td className="px-6 py-4">{fuel.cout}€</td>
                   <td className="px-6 py-4">{fuel.kilometrage}</td>
                   <td className="px-6 py-4">{fuel.station}</td>
-                  <td className="px-6 py-4">{new Date(fuel.date).toLocaleDateString()}</td>
+                  <td className="px-6 py-4">
+                    {new Date(fuel.date).toLocaleDateString()}
+                  </td>
                 </tr>
               ))
             )}

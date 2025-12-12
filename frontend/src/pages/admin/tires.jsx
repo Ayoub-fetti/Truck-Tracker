@@ -1,8 +1,8 @@
 // frontend/src/pages/admin/tires.jsx
-import { useState, useEffect } from 'react';
-import { tiresService } from '../../services/tires';
-import { trucksService } from '../../services/trucks';
-import { trailersService } from '../../services/trailers';
+import { useState, useEffect } from "react";
+import { tiresService } from "../../services/tires";
+import { trucksService } from "../../services/trucks";
+import { trailersService } from "../../services/trailers";
 
 export default function Tires() {
   const [tires, setTires] = useState([]);
@@ -12,13 +12,13 @@ export default function Tires() {
   const [showForm, setShowForm] = useState(false);
   const [editingTire, setEditingTire] = useState(null);
   const [formData, setFormData] = useState({
-    vehicule: '',
-    vehiculeType: 'Truck',
-    position: '',
-    marque: '',
-    etat: 'bon',
-    pressionRecommandee: '',
-    kilometrageInstallation: ''
+    vehicule: "",
+    vehiculeType: "Truck",
+    position: "",
+    marque: "",
+    etat: "bon",
+    pressionRecommandee: "",
+    kilometrageInstallation: "",
   });
 
   useEffect(() => {
@@ -30,13 +30,13 @@ export default function Tires() {
       const [tiresRes, trucksRes, trailersRes] = await Promise.all([
         tiresService.getAll(),
         trucksService.getAll(),
-        trailersService.getAll()
+        trailersService.getAll(),
       ]);
       setTires(tiresRes.data);
       setTrucks(trucksRes.data);
       setTrailers(trailersRes.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
@@ -53,7 +53,7 @@ export default function Tires() {
       fetchData();
       resetForm();
     } catch (error) {
-      console.error('Error saving tire:', error);
+      console.error("Error saving tire:", error);
     }
   };
 
@@ -64,30 +64,40 @@ export default function Tires() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure?')) {
+    if (window.confirm("Are you sure?")) {
       try {
         await tiresService.delete(id);
         fetchData();
       } catch (error) {
-        console.error('Error deleting tire:', error);
+        console.error("Error deleting tire:", error);
       }
     }
   };
 
   const resetForm = () => {
     setFormData({
-      vehicule: '', vehiculeType: 'Truck', position: '', marque: '', 
-      etat: 'bon', pressionRecommandee: '', kilometrageInstallation: ''
+      vehicule: "",
+      vehiculeType: "Truck",
+      position: "",
+      marque: "",
+      etat: "bon",
+      pressionRecommandee: "",
+      kilometrageInstallation: "",
     });
     setEditingTire(null);
     setShowForm(false);
   };
 
   const getVehicleOptions = () => {
-    return formData.vehiculeType === 'Truck' ? trucks : trailers;
+    return formData.vehiculeType === "Truck" ? trucks : trailers;
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-transparent"></div>
+      </div>
+    );
 
   return (
     <div className="p-6">
@@ -104,12 +114,18 @@ export default function Tires() {
       {showForm && (
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-xl font-semibold mb-4">
-            {editingTire ? 'Edit Tire' : 'Add New Tire'}
+            {editingTire ? "Edit Tire" : "Add New Tire"}
           </h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <select
               value={formData.vehiculeType}
-              onChange={(e) => setFormData({...formData, vehiculeType: e.target.value, vehicule: ''})}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  vehiculeType: e.target.value,
+                  vehicule: "",
+                })
+              }
               className="border p-2 rounded"
               required
             >
@@ -118,20 +134,26 @@ export default function Tires() {
             </select>
             <select
               value={formData.vehicule}
-              onChange={(e) => setFormData({...formData, vehicule: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, vehicule: e.target.value })
+              }
               className="border p-2 rounded"
               required
             >
               <option value="">Select {formData.vehiculeType}</option>
-              {getVehicleOptions().map(vehicle => (
-                <option key={vehicle._id} value={vehicle._id}>{vehicle.immatriculation}</option>
+              {getVehicleOptions().map((vehicle) => (
+                <option key={vehicle._id} value={vehicle._id}>
+                  {vehicle.immatriculation}
+                </option>
               ))}
             </select>
             <input
               type="text"
               placeholder="Position"
               value={formData.position}
-              onChange={(e) => setFormData({...formData, position: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, position: e.target.value })
+              }
               className="border p-2 rounded"
               required
             />
@@ -139,12 +161,16 @@ export default function Tires() {
               type="text"
               placeholder="Marque"
               value={formData.marque}
-              onChange={(e) => setFormData({...formData, marque: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, marque: e.target.value })
+              }
               className="border p-2 rounded"
             />
             <select
               value={formData.etat}
-              onChange={(e) => setFormData({...formData, etat: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, etat: e.target.value })
+              }
               className="border p-2 rounded"
             >
               <option value="neuf">Neuf</option>
@@ -157,21 +183,38 @@ export default function Tires() {
               type="number"
               placeholder="Pression Recommandée"
               value={formData.pressionRecommandee}
-              onChange={(e) => setFormData({...formData, pressionRecommandee: e.target.value})}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  pressionRecommandee: e.target.value,
+                })
+              }
               className="border p-2 rounded"
             />
             <input
               type="number"
               placeholder="Kilométrage Installation"
               value={formData.kilometrageInstallation}
-              onChange={(e) => setFormData({...formData, kilometrageInstallation: e.target.value})}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  kilometrageInstallation: e.target.value,
+                })
+              }
               className="border p-2 rounded"
             />
             <div className="flex gap-2">
-              <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                {editingTire ? 'Update' : 'Create'}
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                {editingTire ? "Update" : "Create"}
               </button>
-              <button type="button" onClick={resetForm} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              >
                 Cancel
               </button>
             </div>
@@ -201,11 +244,15 @@ export default function Tires() {
                 <td className="px-6 py-4">{tire.position}</td>
                 <td className="px-6 py-4">{tire.marque}</td>
                 <td className="px-6 py-4">
-                  <span className={`px-2 py-1 rounded text-sm ${
-                    tire.etat === 'neuf' || tire.etat === 'bon' ? 'bg-green-100 text-green-800' :
-                    tire.etat === 'moyen' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded text-sm ${
+                      tire.etat === "neuf" || tire.etat === "bon"
+                        ? "bg-green-100 text-green-800"
+                        : tire.etat === "moyen"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
                     {tire.etat}
                   </span>
                 </td>

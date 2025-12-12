@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { trucksService } from '../../services/trucks';
+import { useState, useEffect } from "react";
+import { trucksService } from "../../services/trucks";
 
 export default function Trucks() {
   const [trucks, setTrucks] = useState([]);
@@ -7,11 +7,11 @@ export default function Trucks() {
   const [showForm, setShowForm] = useState(false);
   const [editingTruck, setEditingTruck] = useState(null);
   const [formData, setFormData] = useState({
-    immatriculation: '',
-    marque: '',
-    modele: '',
-    kilometrage: '',
-    statut: 'disponible'
+    immatriculation: "",
+    marque: "",
+    modele: "",
+    kilometrage: "",
+    statut: "disponible",
   });
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Trucks() {
       const response = await trucksService.getAll();
       setTrucks(response.data);
     } catch (error) {
-      console.error('Error fetching trucks:', error);
+      console.error("Error fetching trucks:", error);
     } finally {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ export default function Trucks() {
       fetchTrucks();
       resetForm();
     } catch (error) {
-      console.error('Error saving truck:', error);
+      console.error("Error saving truck:", error);
     }
   };
 
@@ -51,24 +51,34 @@ export default function Trucks() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure?')) {
+    if (window.confirm("Are you sure?")) {
       try {
         await trucksService.delete(id);
         fetchTrucks();
       } catch (error) {
-        console.error('Error deleting truck:', error);
+        console.error("Error deleting truck:", error);
       }
     }
   };
 
   const resetForm = () => {
-    setFormData({ immatriculation: '', marque: '', modele: '', kilometrage: '', statut: 'disponible' });
+    setFormData({
+      immatriculation: "",
+      marque: "",
+      modele: "",
+      kilometrage: "",
+      statut: "disponible",
+    });
     setEditingTruck(null);
     setShowForm(false);
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
-
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-transparent"></div>
+      </div>
+    );
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -84,14 +94,16 @@ export default function Trucks() {
       {showForm && (
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-xl font-semibold mb-4">
-            {editingTruck ? 'Edit Truck' : 'Add New Truck'}
+            {editingTruck ? "Edit Truck" : "Add New Truck"}
           </h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <input
               type="text"
               placeholder="Immatriculation"
               value={formData.immatriculation}
-              onChange={(e) => setFormData({...formData, immatriculation: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, immatriculation: e.target.value })
+              }
               className="border p-2 rounded"
               required
             />
@@ -99,7 +111,9 @@ export default function Trucks() {
               type="text"
               placeholder="Marque"
               value={formData.marque}
-              onChange={(e) => setFormData({...formData, marque: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, marque: e.target.value })
+              }
               className="border p-2 rounded"
               required
             />
@@ -107,7 +121,9 @@ export default function Trucks() {
               type="text"
               placeholder="Modèle"
               value={formData.modele}
-              onChange={(e) => setFormData({...formData, modele: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, modele: e.target.value })
+              }
               className="border p-2 rounded"
               required
             />
@@ -115,12 +131,16 @@ export default function Trucks() {
               type="number"
               placeholder="Kilométrage"
               value={formData.kilometrage}
-              onChange={(e) => setFormData({...formData, kilometrage: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, kilometrage: e.target.value })
+              }
               className="border p-2 rounded"
             />
             <select
               value={formData.statut}
-              onChange={(e) => setFormData({...formData, statut: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, statut: e.target.value })
+              }
               className="border p-2 rounded"
             >
               <option value="disponible">Disponible</option>
@@ -128,10 +148,17 @@ export default function Trucks() {
               <option value="maintenance">Maintenance</option>
             </select>
             <div className="flex gap-2">
-              <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                {editingTruck ? 'Update' : 'Create'}
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                {editingTruck ? "Update" : "Create"}
               </button>
-              <button type="button" onClick={resetForm} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              >
                 Cancel
               </button>
             </div>
@@ -159,11 +186,15 @@ export default function Trucks() {
                 <td className="px-6 py-4">{truck.modele}</td>
                 <td className="px-6 py-4">{truck.kilometrage}</td>
                 <td className="px-6 py-4">
-                  <span className={`px-2 py-1 rounded text-sm ${
-                    truck.statut === 'disponible' ? 'bg-green-100 text-green-800' :
-                    truck.statut === 'en_service' ? 'bg-blue-100 text-blue-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded text-sm ${
+                      truck.statut === "disponible"
+                        ? "bg-green-100 text-green-800"
+                        : truck.statut === "en_service"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
                     {truck.statut}
                   </span>
                 </td>
