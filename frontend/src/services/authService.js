@@ -5,7 +5,10 @@ export const authService = {
     const response = await API.post('/auth/login', { email, password });
     return response.data;
   },
-
+  register: async (userData) => {
+    const response = await API.post('/auth/register', userData);
+    return response.data;
+  },
   logout: () => {
     localStorage.removeItem('token');
   }

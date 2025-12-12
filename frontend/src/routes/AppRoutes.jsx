@@ -12,6 +12,7 @@ import Trips from '../pages/admin/trips';
 import Maintenance from '../pages/admin/maintenance';
 import Tires from '../pages/admin/tires';
 import Fuel from '../pages/admin/fuel';
+import Users from '../pages/admin/users';
 
 // Driver pages
 import MyTrips from '../pages/driver/my_trips';
@@ -63,6 +64,12 @@ const AppRoutes = () => {
       <Route path="/admin/fuel" element={
         <ProtectedRoute allowedRoles={['admin']}>
           <Fuel />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/admin/users" element={
+        <ProtectedRoute allowedRoles={['admin']}>
+          <Users />
         </ProtectedRoute>
       } />
 

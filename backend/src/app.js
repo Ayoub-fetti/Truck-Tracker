@@ -8,6 +8,7 @@ const tireRoutes = require('./routes/tireRoutes');
 const tripRoutes = require('./routes/tripRoutes');
 const fuelRoutes = require('./routes/fuelRoutes');
 const maintenanceRoutes = require('./routes/maintenanceRoutes');
+const userRoutes = require('./routes/userRoutes');
 const { errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
@@ -27,6 +28,7 @@ app.use('/api/tires', tireRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/fuel', fuelRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(errorHandler);
 

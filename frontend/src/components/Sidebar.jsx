@@ -10,6 +10,7 @@ const Sidebar = ({ isOpen, closeSidebar, userRole }) => {
     { path: '/admin/maintenance', name: 'Maintenance', icon: '🔧' },
     { path: '/admin/tires', name: 'Tires', icon: '⚙️' },
     { path: '/admin/fuel', name: 'Fuel', icon: '⛽' },
+    { path: '/admin/users', name: 'Users', icon: '👥' },
   ];
 
   const driverMenuItems = [
