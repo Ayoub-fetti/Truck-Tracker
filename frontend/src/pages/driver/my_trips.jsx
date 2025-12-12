@@ -3,6 +3,7 @@ import { tripsService } from '../../services/trips';
 import { fuelService } from '../../services/fuel';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { generateTripPDF } from '../../services/pdfService';
 
 export default function MyTrips() {
   const { user } = useAuth();
@@ -38,7 +39,6 @@ export default function MyTrips() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">My Dashboard</h1>
       
-      {/* Tabs */}
       <div className="flex space-x-4 mb-6">
         <button
           onClick={() => setActiveTab('trips')}
@@ -54,7 +54,6 @@ export default function MyTrips() {
         </button>
       </div>
 
-      {/* Trips Tab */}
       {activeTab === 'trips' && (
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="w-full">
@@ -91,13 +90,19 @@ export default function MyTrips() {
                       </span>
                     </td>
                     <td className="px-6 py-4">{new Date(trip.dateDepart).toLocaleDateString()}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 space-x-2">
                       <Link
                         to={`/driver/my-trip-detail/${trip._id}`}
                         className="text-blue-600 hover:text-blue-800"
                       >
-                        View Details
+                        View
                       </Link>
+                      <button
+                        onClick={() => generateTripPDF(trip._id)}
+                        className="text-green-600 hover:text-green-800"
+                      >
+                        PDF
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -107,7 +112,6 @@ export default function MyTrips() {
         </div>
       )}
 
-      {/* Fuel Tab */}
       {activeTab === 'fuel' && (
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="w-full">

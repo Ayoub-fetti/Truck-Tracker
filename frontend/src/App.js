@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
 import AppRoutes from './routes/AppRoutes';
 

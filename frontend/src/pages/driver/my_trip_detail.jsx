@@ -1,9 +1,9 @@
-// frontend/src/pages/driver/my_trip_detail.jsx
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { tripsService } from '../../services/trips';
 import { fuelService } from '../../services/fuel';
 import { useAuth } from '../../context/AuthContext';
+import { generateTripPDF } from '../../services/pdfService';
 
 export default function MyTripDetail() {
   const { id } = useParams();
@@ -13,13 +13,6 @@ export default function MyTripDetail() {
   const [fuelLogs, setFuelLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [showFuelForm, setShowFuelForm] = useState(false);
-  const [fuelFormData, setFuelFormData] = useState({
-    quantite: '',
-    cout: '',
-    kilometrage: '',
-    station: ''
-  });
 
   useEffect(() => {
     if (user?._id) {
@@ -32,7 +25,6 @@ export default function MyTripDetail() {
       setError('');
       const tripRes = await tripsService.getById(id);
       
-      // Check if this trip belongs to the current driver
       if (tripRes.data.chauffeur._id !== user._id) {
         setError('You are not authorized to view this trip');
         return;
@@ -40,7 +32,6 @@ export default function MyTripDetail() {
       
       setTrip(tripRes.data);
       
-      // Try to get fuel logs, but don't fail if there's an issue
       try {
         const fuelRes = await fuelService.getByTrip(id);
         setFuelLogs(fuelRes.data || []);
@@ -62,10 +53,6 @@ export default function MyTripDetail() {
       setLoading(false);
     }
   };
-
-
-
-
 
   if (loading) return <div className="p-6">Loading...</div>;
   
@@ -91,15 +78,22 @@ export default function MyTripDetail() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Trip Details</h1>
-        <button
-          onClick={() => navigate('/driver/my-trips')}
-          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-        >
-          Back to My Trips
-        </button>
+        <div className="space-x-2">
+          <button
+            onClick={() => generateTripPDF(trip._id)}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Generate PDF
+          </button>
+          <button
+            onClick={() => navigate('/driver/my-trips')}
+            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          >
+            Back
+          </button>
+        </div>
       </div>
       
-      {/* Trip Info */}
       <div className="bg-white p-6 rounded-lg shadow mb-6">
         <h2 className="text-xl font-semibold mb-4">Trip Information</h2>
         <div className="grid grid-cols-2 gap-4">
@@ -124,12 +118,8 @@ export default function MyTripDetail() {
             </p>
           </div>
         </div>
-        
       </div>
 
-
-
-      {/* Fuel Logs */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b">
           <h2 className="text-xl font-semibold">Fuel Logs for this Trip</h2>
