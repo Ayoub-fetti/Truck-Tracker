@@ -32,7 +32,6 @@ function AppLayout() {
           <AppRoutes />
         </main>
       </div>
-      <Footer />
     </div>
   );
 }
