@@ -11,7 +11,7 @@ router.route('/')
   .post(createFuelLog)
   .get(getFuelLogs);
 
-router.get('/stats/:truck', getConsumptionStats);
+// router.get('/stats/:truck', getConsumptionStats);
 
 router.route('/:id')
   .get(getFuelLog)

@@ -1,4 +1,3 @@
-// backend/src/controllers/FuelController.js
 const FuelLog = require('../models/FuelLog');
 const Truck = require('../models/Truck');
 
@@ -7,8 +6,6 @@ exports.createFuelLog = async (req, res) => {
   
   const lastLog = await FuelLog.findOne({ truck }).sort({ kilometrage: -1 });
   
-  // If admin is creating the log and specifies a chauffeur, use that
-  // Otherwise, use the current user (for drivers creating their own logs)
   const fuelLogData = {
     ...req.body,
     chauffeur: (req.user.role === 'admin' && chauffeur) ? chauffeur : req.user._id
@@ -49,16 +46,16 @@ exports.getFuelLog = async (req, res) => {
   res.json(log);
 };
 
-exports.getConsumptionStats = async (req, res) => {
-  const { truck } = req.params;
-  const logs = await FuelLog.find({ truck }).sort({ date: -1 }).limit(10);
+// exports.getConsumptionStats = async (req, res) => {
+//   const { truck } = req.params;
+//   const logs = await FuelLog.find({ truck }).sort({ date: -1 }).limit(10);
   
-  const avgConsumption = logs.reduce((sum, log) => sum + (log.consommationMoyenne || 0), 0) / logs.length;
-  const totalFuel = logs.reduce((sum, log) => sum + log.quantite, 0);
-  const totalCost = logs.reduce((sum, log) => sum + log.cout, 0);
+//   const avgConsumption = logs.reduce((sum, log) => sum + (log.consommationMoyenne || 0), 0) / logs.length;
+//   const totalFuel = logs.reduce((sum, log) => sum + log.quantite, 0);
+//   const totalCost = logs.reduce((sum, log) => sum + log.cout, 0);
   
-  res.json({ avgConsumption, totalFuel, totalCost, logs });
-};
+//   res.json({ avgConsumption, totalFuel, totalCost, logs });
+// };
 
 exports.deleteFuelLog = async (req, res) => {
   const log = await FuelLog.findByIdAndDelete(req.params.id);

@@ -16,9 +16,9 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/rules', authorize('admin'), getMaintenanceRules);
-router.put('/rules', authorize('admin'), setMaintenanceRules);
-router.post('/check', authorize('admin'), checkMaintenanceNeeded);
+// router.get('/rules', authorize('admin'), getMaintenanceRules);
+// router.put('/rules', authorize('admin'), setMaintenanceRules);
+// router.post('/check', authorize('admin'), checkMaintenanceNeeded);
 
 router.route('/')
   .post(authorize('admin'), createMaintenance)

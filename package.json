@@ -1,0 +1,10 @@
+{
+  "name": "truck-tracker",
+  "version": "1.0.0",
+  "scripts": {
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose build",
+    "docker:logs": "docker compose logs -f"
+  }
+}

@@ -2,21 +2,21 @@ const Maintenance = require('../models/Maintenance');
 const Truck = require('../models/Truck');
 const Trailer = require('../models/Trailer');
 
-const MAINTENANCE_RULES = {
-  kilometrage: 10000,
-  jours: 90
-};
+// const MAINTENANCE_RULES = {
+//   kilometrage: 10000,
+//   jours: 90
+// };
 
-exports.setMaintenanceRules = async (req, res) => {
-  const { kilometrage, jours } = req.body;
-  if (kilometrage) MAINTENANCE_RULES.kilometrage = kilometrage;
-  if (jours) MAINTENANCE_RULES.jours = jours;
-  res.json({ message: 'Rules updated', rules: MAINTENANCE_RULES });
-};
+// exports.setMaintenanceRules = async (req, res) => {
+//   const { kilometrage, jours } = req.body;
+//   if (kilometrage) MAINTENANCE_RULES.kilometrage = kilometrage;
+//   if (jours) MAINTENANCE_RULES.jours = jours;
+//   res.json({ message: 'Rules updated', rules: MAINTENANCE_RULES });
+// };
 
-exports.getMaintenanceRules = async (req, res) => {
-  res.json(MAINTENANCE_RULES);
-};
+// exports.getMaintenanceRules = async (req, res) => {
+//   res.json(MAINTENANCE_RULES);
+// };
 
 exports.createMaintenance = async (req, res) => {
   const maintenance = await Maintenance.create(req.body);
@@ -62,50 +62,50 @@ exports.deleteMaintenance = async (req, res) => {
   res.json({ message: 'Maintenance deleted' });
 };
 
-exports.checkMaintenanceNeeded = async (req, res) => {
-  const trucks = await Truck.find({ statut: { $ne: 'maintenance' } });
-  const trailers = await Trailer.find({ statut: { $ne: 'maintenance' } });
-  const needed = [];
+// exports.checkMaintenanceNeeded = async (req, res) => {
+//   const trucks = await Truck.find({ statut: { $ne: 'maintenance' } });
+//   const trailers = await Trailer.find({ statut: { $ne: 'maintenance' } });
+//   const needed = [];
   
-  for (const truck of trucks) {
-    const lastMaintenance = await Maintenance.findOne({ vehicule: truck._id, vehiculeType: 'Truck' })
-      .sort({ dateMaintenance: -1 });
+//   for (const truck of trucks) {
+//     const lastMaintenance = await Maintenance.findOne({ vehicule: truck._id, vehiculeType: 'Truck' })
+//       .sort({ dateMaintenance: -1 });
     
-    if (!lastMaintenance || 
-        truck.kilometrage - (lastMaintenance.kilometrage || 0) >= MAINTENANCE_RULES.kilometrage ||
-        Date.now() - lastMaintenance.dateMaintenance > MAINTENANCE_RULES.jours * 24 * 60 * 60 * 1000) {
+//     if (!lastMaintenance || 
+//         truck.kilometrage - (lastMaintenance.kilometrage || 0) >= MAINTENANCE_RULES.kilometrage ||
+//         Date.now() - lastMaintenance.dateMaintenance > MAINTENANCE_RULES.jours * 24 * 60 * 60 * 1000) {
       
-      const maintenance = await Maintenance.create({
-        vehicule: truck._id,
-        vehiculeType: 'Truck',
-        type: 'révision',
-        description: 'Maintenance automatique - seuil atteint',
-        kilometrage: truck.kilometrage,
-        statut: 'planifiée'
-      });
-      needed.push(maintenance);
-    }
-  }
+//       const maintenance = await Maintenance.create({
+//         vehicule: truck._id,
+//         vehiculeType: 'Truck',
+//         type: 'révision',
+//         description: 'Maintenance automatique - seuil atteint',
+//         kilometrage: truck.kilometrage,
+//         statut: 'planifiée'
+//       });
+//       needed.push(maintenance);
+//     }
+//   }
   
-  for (const trailer of trailers) {
-    const lastMaintenance = await Maintenance.findOne({ vehicule: trailer._id, vehiculeType: 'Trailer' })
-      .sort({ dateMaintenance: -1 });
+//   for (const trailer of trailers) {
+//     const lastMaintenance = await Maintenance.findOne({ vehicule: trailer._id, vehiculeType: 'Trailer' })
+//       .sort({ dateMaintenance: -1 });
     
-    if (!lastMaintenance || 
-        trailer.kilometrage - (lastMaintenance.kilometrage || 0) >= MAINTENANCE_RULES.kilometrage ||
-        Date.now() - lastMaintenance.dateMaintenance > MAINTENANCE_RULES.jours * 24 * 60 * 60 * 1000) {
+//     if (!lastMaintenance || 
+//         trailer.kilometrage - (lastMaintenance.kilometrage || 0) >= MAINTENANCE_RULES.kilometrage ||
+//         Date.now() - lastMaintenance.dateMaintenance > MAINTENANCE_RULES.jours * 24 * 60 * 60 * 1000) {
       
-      const maintenance = await Maintenance.create({
-        vehicule: trailer._id,
-        vehiculeType: 'Trailer',
-        type: 'révision',
-        description: 'Maintenance automatique - seuil atteint',
-        kilometrage: trailer.kilometrage,
-        statut: 'planifiée'
-      });
-      needed.push(maintenance);
-    }
-  }
+//       const maintenance = await Maintenance.create({
+//         vehicule: trailer._id,
+//         vehiculeType: 'Trailer',
+//         type: 'révision',
+//         description: 'Maintenance automatique - seuil atteint',
+//         kilometrage: trailer.kilometrage,
+//         statut: 'planifiée'
+//       });
+//       needed.push(maintenance);
+//     }
+//   }
   
-  res.json({ message: `${needed.length} maintenances créées`, maintenances: needed });
-};
+//   res.json({ message: `${needed.length} maintenances créées`, maintenances: needed });
+// };
