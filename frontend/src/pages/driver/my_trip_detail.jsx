@@ -13,6 +13,7 @@ export default function MyTripDetail() {
   const [fuelLogs, setFuelLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     if (user?._id) {
@@ -53,6 +54,21 @@ export default function MyTripDetail() {
     }
   };
 
+const handleStatusUpdate = async (newStatus) => {
+  setUpdating(true);
+  try {
+    await tripsService.updateStatus(id, newStatus);
+    setTrip({ ...trip, statut: newStatus });
+    alert("Trip status updated successfully");
+  } catch (error) {
+    console.error("Error updating status:", error);
+    alert("Failed to update trip status");
+  } finally {
+    setUpdating(false);
+  }
+};
+
+
   if (loading)
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -85,15 +101,15 @@ export default function MyTripDetail() {
         <div className="space-x-2">
           <button
             onClick={() => generateTripPDF(trip._id)}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            className="bg-green-500 text-white px-4 py-2 rounded rounded-2xl hover:bg-green-600"
           >
-            Generate PDF
+            Generate PDF <i className="fa-solid fa-file-pdf ml-2"></i>
           </button>
           <button
             onClick={() => navigate("/driver/my-trips")}
-            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            className="bg-blue-400 text-white px-4 py-2 rounded rounded-2xl hover:bg-blue-500"
           >
-            Back
+            Back <i className="fa-solid fa-angles-left"></i>
           </button>
         </div>
       </div>
@@ -142,6 +158,33 @@ export default function MyTripDetail() {
                 {trip.statut}
               </span>
             </p>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-4 border-t">
+          <h3 className="font-semibold mb-3">Update Trip Status</h3>
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleStatusUpdate("planifié")}
+              disabled={updating || trip.statut === "planifié"}
+              className="px-4 py-2 rounded rounded-2xl bg-yellow-500 text-white hover:bg-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Planifié
+            </button>
+            <button
+              onClick={() => handleStatusUpdate("en_cours")}
+              disabled={updating || trip.statut === "en_cours"}
+              className="px-4 py-2 rounded rounded-2xl bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              En Cours
+            </button>
+            <button
+              onClick={() => handleStatusUpdate("terminé")}
+              disabled={updating || trip.statut === "terminé"}
+              className="px-4 py-2 rounded rounded-2xl bg-green-500 text-white hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Terminé
+            </button>
           </div>
         </div>
       </div>

@@ -261,15 +261,15 @@ export default function Tires() {
                 <td className="px-6 py-4">
                   <button
                     onClick={() => handleEdit(tire)}
-                    className="text-blue-600 hover:text-blue-800 mr-2"
+                    className="text-blue-600 hover:text-blue-800 mr-4 "
                   >
-                    Edit
+                    <i class="fa-solid fa-marker text-orange-600"></i>
                   </button>
                   <button
                     onClick={() => handleDelete(tire._id)}
                     className="text-red-600 hover:text-red-800"
                   >
-                    Delete
+                    <i class="fa-solid fa-trash-can text-red-500"></i>
                   </button>
                 </td>
               </tr>

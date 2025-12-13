@@ -1,8 +1,8 @@
 // frontend/src/pages/admin/maintenance.jsx
-import { useState, useEffect } from 'react';
-import { maintenanceService } from '../../services/maintenance';
-import { trucksService } from '../../services/trucks';
-import { trailersService } from '../../services/trailers';
+import { useState, useEffect } from "react";
+import { maintenanceService } from "../../services/maintenance";
+import { trucksService } from "../../services/trucks";
+import { trailersService } from "../../services/trailers";
 
 export default function Maintenance() {
   const [maintenance, setMaintenance] = useState([]);
@@ -12,15 +12,15 @@ export default function Maintenance() {
   const [showForm, setShowForm] = useState(false);
   const [editingMaintenance, setEditingMaintenance] = useState(null);
   const [formData, setFormData] = useState({
-    vehicule: '',
-    vehiculeType: 'Truck',
-    type: 'révision',
-    description: '',
-    cout: '',
-    kilometrage: '',
-    prochaineMaintenance: '',
-    statut: 'planifiée',
-    garage: ''
+    vehicule: "",
+    vehiculeType: "Truck",
+    type: "révision",
+    description: "",
+    cout: "",
+    kilometrage: "",
+    prochaineMaintenance: "",
+    statut: "planifiée",
+    garage: "",
   });
 
   useEffect(() => {
@@ -32,13 +32,13 @@ export default function Maintenance() {
       const [maintenanceRes, trucksRes, trailersRes] = await Promise.all([
         maintenanceService.getAll(),
         trucksService.getAll(),
-        trailersService.getAll()
+        trailersService.getAll(),
       ]);
       setMaintenance(maintenanceRes.data);
       setTrucks(trucksRes.data);
       setTrailers(trailersRes.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
@@ -55,7 +55,7 @@ export default function Maintenance() {
       fetchData();
       resetForm();
     } catch (error) {
-      console.error('Error saving maintenance:', error);
+      console.error("Error saving maintenance:", error);
     }
   };
 
@@ -63,42 +63,49 @@ export default function Maintenance() {
     setEditingMaintenance(maintenance);
     setFormData({
       ...maintenance,
-      prochaineMaintenance: maintenance.prochaineMaintenance?.split('T')[0] || ''
+      prochaineMaintenance:
+        maintenance.prochaineMaintenance?.split("T")[0] || "",
     });
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure?')) {
+    if (window.confirm("Are you sure?")) {
       try {
         await maintenanceService.delete(id);
         fetchData();
       } catch (error) {
-        console.error('Error deleting maintenance:', error);
+        console.error("Error deleting maintenance:", error);
       }
     }
   };
 
   const resetForm = () => {
     setFormData({
-      vehicule: '', vehiculeType: 'Truck', type: 'révision', description: '', 
-      cout: '', kilometrage: '', prochaineMaintenance: '', statut: 'planifiée', garage: ''
+      vehicule: "",
+      vehiculeType: "Truck",
+      type: "révision",
+      description: "",
+      cout: "",
+      kilometrage: "",
+      prochaineMaintenance: "",
+      statut: "planifiée",
+      garage: "",
     });
     setEditingMaintenance(null);
     setShowForm(false);
   };
 
   const getVehicleOptions = () => {
-    return formData.vehiculeType === 'Truck' ? trucks : trailers;
+    return formData.vehiculeType === "Truck" ? trucks : trailers;
   };
 
-
- if (loading)
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-transparent"></div>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-transparent"></div>
+      </div>
+    );
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
@@ -114,12 +121,18 @@ export default function Maintenance() {
       {showForm && (
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-xl font-semibold mb-4">
-            {editingMaintenance ? 'Edit Maintenance' : 'Add New Maintenance'}
+            {editingMaintenance ? "Edit Maintenance" : "Add New Maintenance"}
           </h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <select
               value={formData.vehiculeType}
-              onChange={(e) => setFormData({...formData, vehiculeType: e.target.value, vehicule: ''})}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  vehiculeType: e.target.value,
+                  vehicule: "",
+                })
+              }
               className="border p-2 rounded"
               required
             >
@@ -128,18 +141,24 @@ export default function Maintenance() {
             </select>
             <select
               value={formData.vehicule}
-              onChange={(e) => setFormData({...formData, vehicule: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, vehicule: e.target.value })
+              }
               className="border p-2 rounded"
               required
             >
               <option value="">Select {formData.vehiculeType}</option>
-              {getVehicleOptions().map(vehicle => (
-                <option key={vehicle._id} value={vehicle._id}>{vehicle.immatriculation}</option>
+              {getVehicleOptions().map((vehicle) => (
+                <option key={vehicle._id} value={vehicle._id}>
+                  {vehicle.immatriculation}
+                </option>
               ))}
             </select>
             <select
               value={formData.type}
-              onChange={(e) => setFormData({...formData, type: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, type: e.target.value })
+              }
               className="border p-2 rounded"
               required
             >
@@ -153,13 +172,17 @@ export default function Maintenance() {
               type="number"
               placeholder="Coût"
               value={formData.cout}
-              onChange={(e) => setFormData({...formData, cout: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, cout: e.target.value })
+              }
               className="border p-2 rounded"
             />
             <textarea
               placeholder="Description"
               value={formData.description}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               className="border p-2 rounded col-span-2"
               rows="3"
               required
@@ -168,19 +191,28 @@ export default function Maintenance() {
               type="number"
               placeholder="Kilométrage"
               value={formData.kilometrage}
-              onChange={(e) => setFormData({...formData, kilometrage: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, kilometrage: e.target.value })
+              }
               className="border p-2 rounded"
             />
             <input
               type="date"
               placeholder="Prochaine Maintenance"
               value={formData.prochaineMaintenance}
-              onChange={(e) => setFormData({...formData, prochaineMaintenance: e.target.value})}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  prochaineMaintenance: e.target.value,
+                })
+              }
               className="border p-2 rounded"
             />
             <select
               value={formData.statut}
-              onChange={(e) => setFormData({...formData, statut: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, statut: e.target.value })
+              }
               className="border p-2 rounded"
             >
               <option value="planifiée">Planifiée</option>
@@ -191,14 +223,23 @@ export default function Maintenance() {
               type="text"
               placeholder="Garage"
               value={formData.garage}
-              onChange={(e) => setFormData({...formData, garage: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, garage: e.target.value })
+              }
               className="border p-2 rounded"
             />
             <div className="flex gap-2 col-span-2">
-              <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                {editingMaintenance ? 'Update' : 'Create'}
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                {editingMaintenance ? "Update" : "Create"}
               </button>
-              <button type="button" onClick={resetForm} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              >
                 Cancel
               </button>
             </div>
@@ -230,26 +271,30 @@ export default function Maintenance() {
                 <td className="px-6 py-4">{item.kilometrage}</td>
                 <td className="px-6 py-4">{item.garage}</td>
                 <td className="px-6 py-4">
-                  <span className={`px-2 py-1 rounded text-sm ${
-                    item.statut === 'terminée' ? 'bg-green-100 text-green-800' :
-                    item.statut === 'en_cours' ? 'bg-blue-100 text-blue-800' :
-                    'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded text-sm ${
+                      item.statut === "terminée"
+                        ? "bg-green-100 text-green-800"
+                        : item.statut === "en_cours"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
                     {item.statut}
                   </span>
                 </td>
                 <td className="px-6 py-4">
                   <button
                     onClick={() => handleEdit(item)}
-                    className="text-blue-600 hover:text-blue-800 mr-2"
+                    className="text-blue-600 hover:text-blue-800 mr-4"
                   >
-                    Edit
+                    <i class="fa-solid fa-marker text-orange-600"></i>
                   </button>
                   <button
                     onClick={() => handleDelete(item._id)}
                     className="text-red-600 hover:text-red-800"
                   >
-                    Delete
+                    <i class="fa-solid fa-trash-can text-red-500"></i>
                   </button>
                 </td>
               </tr>

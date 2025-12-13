@@ -3,14 +3,14 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = ({ isOpen, closeSidebar, userRole }) => {
   const adminMenuItems = [
-    { path: "/admin/dashboard", name: "Dashboard", icon: "📊" },
-    { path: "/admin/trucks", name: "Trucks", icon: "🚛" },
-    { path: "/admin/trailers", name: "Trailers", icon: "🚚" },
-    { path: "/admin/trips", name: "Trips", icon: "🗺️" },
-    { path: "/admin/maintenance", name: "Maintenance", icon: "🔧" },
-    { path: "/admin/tires", name: "Tires", icon: "⚙️" },
-    { path: "/admin/fuel", name: "Fuel", icon: "⛽" },
-    { path: "/admin/users", name: "Users", icon: "👥" },
+    { path: "/admin/dashboard", name: "Dashboard", icon: <i class="fa-solid fa-tablet-screen-button"></i> },
+    { path: "/admin/trucks", name: "Trucks", icon: <i class="fa-solid fa-truck"></i> },
+    { path: "/admin/trailers", name: "Trailers", icon: <i class="fa-solid fa-trailer"></i> },
+    { path: "/admin/trips", name: "Trips", icon: <i class="fa-solid fa-map"></i> },
+    { path: "/admin/maintenance", name: "Maintenance", icon: <i class="fa-solid fa-gears"></i> },
+    { path: "/admin/tires", name: "Tires", icon: <i class="fa-solid fa-circle-notch"></i> },
+    { path: "/admin/fuel", name: "Fuel", icon: <i class="fa-solid fa-gas-pump"></i> },
+    { path: "/admin/users", name: "Users", icon: <i class="fa-solid fa-users"></i> },
   ];
 
   const driverMenuItems = [
@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen, closeSidebar, userRole }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-16 left-0 z-50 w-64 h-[calc(100vh-4rem)] 
+        className={`fixed top-18 left-0 z-50 w-64 h-[calc(100vh-4rem)] 
         bg-gray-900/95 text-white shadow-xl backdrop-blur 
         transform transition-transform duration-300 ease-in-out 
         overflow-y-auto lg:translate-x-0
