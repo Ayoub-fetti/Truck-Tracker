@@ -189,7 +189,7 @@ const handleStatusUpdate = async (newStatus) => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      {/* <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b">
           <h2 className="text-xl font-semibold">Fuel Logs for this Trip</h2>
         </div>
@@ -225,7 +225,7 @@ const handleStatusUpdate = async (newStatus) => {
             )}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 }
