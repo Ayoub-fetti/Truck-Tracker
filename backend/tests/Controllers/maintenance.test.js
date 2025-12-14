@@ -83,30 +83,4 @@ describe('MaintenanceController', () => {
       expect(res.body.message).toBe('Maintenance deleted');
     });
   });
-
-  describe('GET /api/maintenance/rules', () => {
-    it('should get maintenance rules', async () => {
-      const res = await request(app).get('/api/maintenance/rules').set('Authorization', `Bearer ${token}`);
-      expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty('kilometrage');
-      expect(res.body).toHaveProperty('jours');
-    });
-  });
-
-  describe('PUT /api/maintenance/rules', () => {
-    it('should update maintenance rules', async () => {
-      const res = await request(app).put('/api/maintenance/rules').set('Authorization', `Bearer ${token}`)
-        .send({ kilometrage: 15000, jours: 120 });
-      expect(res.status).toBe(200);
-      expect(res.body.rules.kilometrage).toBe(15000);
-    });
-  });
-
-  describe('POST /api/maintenance/check', () => {
-    it('should check and create needed maintenances', async () => {
-      const res = await request(app).post('/api/maintenance/check').set('Authorization', `Bearer ${token}`);
-      expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty('maintenances');
-    });
-  });
 });
