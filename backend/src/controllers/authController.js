@@ -40,4 +40,3 @@ exports.login = async (req, res) => {
     token: generateToken(user._id)
   });
 };
-
