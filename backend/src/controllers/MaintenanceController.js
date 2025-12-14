@@ -1,6 +1,6 @@
-const Maintenance = require('../models/Maintenance');
-const Truck = require('../models/Truck');
-const Trailer = require('../models/Trailer');
+const Maintenance = require("../models/Maintenance");
+const Truck = require("../models/Truck");
+const Trailer = require("../models/Trailer");
 
 // const MAINTENANCE_RULES = {
 //   kilometrage: 10000,
@@ -20,10 +20,12 @@ const Trailer = require('../models/Trailer');
 
 exports.createMaintenance = async (req, res) => {
   const maintenance = await Maintenance.create(req.body);
-  
-  const Model = maintenance.vehiculeType === 'Truck' ? Truck : Trailer;
-  await Model.findByIdAndUpdate(maintenance.vehicule, { statut: 'maintenance' });
-  
+
+  const Model = maintenance.vehiculeType === "Truck" ? Truck : Trailer;
+  await Model.findByIdAndUpdate(maintenance.vehicule, {
+    statut: "maintenance",
+  });
+
   res.status(201).json(maintenance);
 };
 
@@ -33,48 +35,61 @@ exports.getMaintenances = async (req, res) => {
   if (vehicule) filter.vehicule = vehicule;
   if (vehiculeType) filter.vehiculeType = vehiculeType;
   if (statut) filter.statut = statut;
-  
-  const maintenances = await Maintenance.find(filter).populate('vehicule').sort({ dateMaintenance: -1 });
+
+  const maintenances = await Maintenance.find(filter)
+    .populate("vehicule")
+    .sort({ dateMaintenance: -1 });
   res.json(maintenances);
 };
 
 exports.getMaintenance = async (req, res) => {
-  const maintenance = await Maintenance.findById(req.params.id).populate('vehicule');
-  if (!maintenance) return res.status(404).json({ message: 'Maintenance not found' });
+  const maintenance = await Maintenance.findById(req.params.id).populate(
+    "vehicule"
+  );
+  if (!maintenance)
+    return res.status(404).json({ message: "Maintenance not found" });
   res.json(maintenance);
 };
 
 exports.updateMaintenance = async (req, res) => {
-  const maintenance = await Maintenance.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-  if (!maintenance) return res.status(404).json({ message: 'Maintenance not found' });
-  
-  if (req.body.statut === 'terminée') {
-    const Model = maintenance.vehiculeType === 'Truck' ? Truck : Trailer;
-    await Model.findByIdAndUpdate(maintenance.vehicule, { statut: 'disponible' });
+  const maintenance = await Maintenance.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true, runValidators: true }
+  );
+  if (!maintenance)
+    return res.status(404).json({ message: "Maintenance not found" });
+
+  if (req.body.statut === "terminée") {
+    const Model = maintenance.vehiculeType === "Truck" ? Truck : Trailer;
+    await Model.findByIdAndUpdate(maintenance.vehicule, {
+      statut: "disponible",
+    });
   }
-  
+
   res.json(maintenance);
 };
 
 exports.deleteMaintenance = async (req, res) => {
   const maintenance = await Maintenance.findByIdAndDelete(req.params.id);
-  if (!maintenance) return res.status(404).json({ message: 'Maintenance not found' });
-  res.json({ message: 'Maintenance deleted' });
+  if (!maintenance)
+    return res.status(404).json({ message: "Maintenance not found" });
+  res.json({ message: "Maintenance deleted" });
 };
 
 // exports.checkMaintenanceNeeded = async (req, res) => {
 //   const trucks = await Truck.find({ statut: { $ne: 'maintenance' } });
 //   const trailers = await Trailer.find({ statut: { $ne: 'maintenance' } });
 //   const needed = [];
-  
+
 //   for (const truck of trucks) {
 //     const lastMaintenance = await Maintenance.findOne({ vehicule: truck._id, vehiculeType: 'Truck' })
 //       .sort({ dateMaintenance: -1 });
-    
-//     if (!lastMaintenance || 
+
+//     if (!lastMaintenance ||
 //         truck.kilometrage - (lastMaintenance.kilometrage || 0) >= MAINTENANCE_RULES.kilometrage ||
 //         Date.now() - lastMaintenance.dateMaintenance > MAINTENANCE_RULES.jours * 24 * 60 * 60 * 1000) {
-      
+
 //       const maintenance = await Maintenance.create({
 //         vehicule: truck._id,
 //         vehiculeType: 'Truck',
@@ -86,15 +101,15 @@ exports.deleteMaintenance = async (req, res) => {
 //       needed.push(maintenance);
 //     }
 //   }
-  
+
 //   for (const trailer of trailers) {
 //     const lastMaintenance = await Maintenance.findOne({ vehicule: trailer._id, vehiculeType: 'Trailer' })
 //       .sort({ dateMaintenance: -1 });
-    
-//     if (!lastMaintenance || 
+
+//     if (!lastMaintenance ||
 //         trailer.kilometrage - (lastMaintenance.kilometrage || 0) >= MAINTENANCE_RULES.kilometrage ||
 //         Date.now() - lastMaintenance.dateMaintenance > MAINTENANCE_RULES.jours * 24 * 60 * 60 * 1000) {
-      
+
 //       const maintenance = await Maintenance.create({
 //         vehicule: trailer._id,
 //         vehiculeType: 'Trailer',
@@ -106,6 +121,6 @@ exports.deleteMaintenance = async (req, res) => {
 //       needed.push(maintenance);
 //     }
 //   }
-  
+
 //   res.json({ message: `${needed.length} maintenances créées`, maintenances: needed });
 // };

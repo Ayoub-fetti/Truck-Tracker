@@ -1,7 +1,7 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 exports.getAllUsers = async (req, res) => {
-  const users = await User.find().select('-password');
+  const users = await User.find().select("-password");
   res.json(users);
 };
 
@@ -11,11 +11,11 @@ exports.updateUser = async (req, res) => {
     req.params.id,
     { nom, email, role },
     { new: true }
-  ).select('-password');
+  ).select("-password");
   res.json(user);
 };
 
 exports.deleteUser = async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
-  res.json({ message: 'User deleted' });
+  res.json({ message: "User deleted" });
 };
