@@ -6,6 +6,7 @@ export const tripsService = {
   getDriverTrips: (userId) => API.get(`/trips?chauffeur=${userId}`),
   create: (data) => API.post('/trips', data),
   update: (id, data) => API.put(`/trips/${id}`, data),
+  delete: (id) => API.delete(`/trips/${id}`),
   updateStatus: (id, statut) => API.patch(`/trips/${id}/status`, { statut }),
   updateKilometers: (id, kilometers) => API.patch(`/trips/${id}/kilometers`, { kilometers }),
   updateVehicleState: (id, state) => API.patch(`/trips/${id}/vehicle-state`, { state }),

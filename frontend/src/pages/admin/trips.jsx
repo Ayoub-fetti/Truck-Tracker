@@ -75,6 +75,17 @@ export default function Trips() {
     setShowForm(true);
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure")) {
+      try {
+         await tripsService.delete(id);
+         fetchData();
+      } catch (e) {
+         console.log("Error deleting trip" , e);
+      }
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       truck: "",
@@ -313,15 +324,19 @@ export default function Trips() {
                 <td className="px-1 py-1">
                   {new Date(trip.dateDepart).toLocaleDateString("fr-FR")}
                 </td>{" "}
-                <td className="px-1 py-1">
-                  {trip.kilometrageDepart}
-                </td>
+                <td className="px-1 py-1">{trip.kilometrageDepart}</td>
                 <td className="px-1 py-1">
                   <button
                     onClick={() => handleEdit(trip)}
                     className="text-blue-600 hover:text-blue-800 font-medium"
                   >
                     <i class="fa-solid fa-marker text-orange-600"></i>
+                  </button>
+                  <button
+                    onClick={() => handleDelete(trip._id)}
+                    className="text-red-600 hover:text-red-800 font-medium ml-3"
+                  >
+                    <i class="fa-solid fa-trash-can text-red-500"></i>
                   </button>
                 </td>
               </tr>
