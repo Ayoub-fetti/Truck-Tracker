@@ -265,14 +265,16 @@ export default function Trips() {
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr className="text-gray-600 uppercase text-sm">
-              <th className="px-6 py-3 text-left">Départ</th>
-              <th className="px-6 py-3 text-left">Destination</th>
-              <th className="px-6 py-3 text-left">Truck</th>
-              <th className="px-6 py-3 text-left">Trailer</th>
-              <th className="px-6 py-3 text-left">Chauffeur</th>
-              <th className="px-6 py-3 text-left">Marchandise</th>
-              <th className="px-6 py-3 text-left">Statut</th>
-              <th className="px-6 py-3 text-left">Actions</th>
+              <th className="px-1 py-1 text-left">Départ</th>
+              <th className="px-1 py-1 text-left">Destination</th>
+              <th className="px-1 py-1 text-left">Truck</th>
+              <th className="px-1 py-1 text-left">Trailer</th>
+              <th className="px-1 py-1 text-left">Chauffeur</th>
+              <th className="px-1 py-1 text-left">Marchandise</th>
+              <th className="px-1 py-1 text-left">Statut</th>
+              <th className="px-1 py-1 text-left">Date Depart</th>
+              <th className="px-1 py-1 text-left">kilometrage Depart</th>
+              <th className="px-1 py-1 text-left">Actions</th>
             </tr>
           </thead>
 
@@ -282,18 +284,17 @@ export default function Trips() {
                 key={trip._id}
                 className="border-t hover:bg-gray-50 transition"
               >
-                <td className="px-6 py-4">{trip.depart}</td>
-                <td className="px-6 py-4">{trip.destination}</td>
-                <td className="px-6 py-4">{trip.truck?.immatriculation}</td>
-                <td className="px-6 py-4">
+                <td className="px-1 py-1">{trip.depart}</td>
+                <td className="px-1 py-1">{trip.destination}</td>
+                <td className="px-1 py-1">{trip.truck?.immatriculation}</td>
+                <td className="px-1 py-1">
                   {trip.trailer?.immatriculation || "None"}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-1 py-1">
                   {trip.chauffeur?.nom || trip.chauffeur}
                 </td>
-                <td className="px-6 py-4">{trip.marchandise}</td>
-
-                <td className="px-6 py-4">
+                <td className="px-1 py-1">{trip.marchandise}</td>
+                <td className="px-1 py-1">
                   <span
                     className={`px-3 py-1.5 rounded-full text-xs font-medium
                     ${
@@ -309,8 +310,13 @@ export default function Trips() {
                     {trip.statut}
                   </span>
                 </td>
-
-                <td className="px-6 py-4">
+                <td className="px-1 py-1">
+                  {new Date(trip.dateDepart).toLocaleDateString("fr-FR")}
+                </td>{" "}
+                <td className="px-1 py-1">
+                  {trip.kilometrageDepart}
+                </td>
+                <td className="px-1 py-1">
                   <button
                     onClick={() => handleEdit(trip)}
                     className="text-blue-600 hover:text-blue-800 font-medium"
