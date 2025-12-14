@@ -17,6 +17,7 @@ import Users from '../pages/admin/users';
 // Driver pages
 import MyTrips from '../pages/driver/my_trips';
 import MyTripDetail from '../pages/driver/my_trip_detail';
+import NotFound from '../components/NotFound';
 
 const AppRoutes = () => {
   return (
@@ -90,6 +91,7 @@ const AppRoutes = () => {
       <Route path="/dashboard" element={<Navigate to="/admin/dashboard" />} />
       <Route path="/my-trips" element={<Navigate to="/driver/my-trips" />} />
       <Route path="/" element={<Navigate to="/login" />} />
+      <Route path='*' element={<NotFound/>}/>
     </Routes>
   );
 };
