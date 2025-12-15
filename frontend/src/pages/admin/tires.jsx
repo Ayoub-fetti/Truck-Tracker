@@ -1,4 +1,3 @@
-// frontend/src/pages/admin/tires.jsx
 import { useState, useEffect } from "react";
 import { tiresService } from "../../services/tires";
 import { trucksService } from "../../services/trucks";
