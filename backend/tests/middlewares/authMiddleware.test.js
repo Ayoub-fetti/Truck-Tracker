@@ -2,7 +2,7 @@ const { protect } = require('../../src/middleware/authMiddleware');
 const User = require('../../src/models/User');
 const { generateToken, verifyToken } = require('../../src/utils/jwt');
 
-jest.mock('../src/models/User');
+jest.mock('../../src/models/User');
 
 describe('Auth Middleware', () => {
   let req, res, next;
